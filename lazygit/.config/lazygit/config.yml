@@ -1,0 +1,26 @@
+# Minimal lazygit config - just a catppuccin mocha theme to match nvim/tmux.
+# Icons stay off (gui.showIcons defaults to false): the terminal font isn't
+# Nerd-Font-patched, so icon glyphs would render as broken boxes.
+gui:
+  border: rounded
+  theme:
+    activeBorderColor:
+      - "#89b4fa"
+      - bold
+    inactiveBorderColor:
+      - "#6c7086"
+    optionsTextColor:
+      - "#89b4fa"
+    selectedLineBgColor:
+      - "#313244"
+    cherryPickedCommitBgColor:
+      - "#74c7ec"
+    cherryPickedCommitFgColor:
+      - "#1e1e2e"
+    unstagedChangesColor:
+      - "#f38ba8"
+    defaultFgColor:
+      - "#cdd6f4"
+    searchingActiveBorderColor:
+      - "#f9e2af"
+      - bold

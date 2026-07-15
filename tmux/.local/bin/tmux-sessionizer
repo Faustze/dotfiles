@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+# Fuzzy-pick a project directory and jump to a tmux session for it,
+# creating the session on first visit. Bound to `prefix + f` in .tmux.conf.
+#
+# The list below is a fixed, curated set (not an auto-scan of $HOME, which
+# is full of unrelated clutter: DB dumps, six duplicate checkouts of the
+# same internal work repo, archived tarballs, etc.) - see dotfiles/README.md
+# for why each entry is here. Add new projects by adding a line below.
+set -euo pipefail
+
+projects=(
+  ~/SUMO-project
+  ~/todo-app
+  ~/frontend-study-lab
+  ~/oss/bumpp
+  ~/oss/vuetify
+  ~/oss/vueuse
+  ~/leetcode-lab
+  ~/OBSIDIAN/Obsidian-Notes
+  ~/GitHubProjects/blog
+  ~/notes
+  ~/opensource-lab
+  ~/pc_builder
+  ~/svrv_tech
+  ~/type-challenges-solutions
+  ~/vtt
+  ~/vuetify-vimg-suspense-repro
+  ~/langchain_news_tg
+  ~/study-lab
+  ~/dotfiles
+)
+
+# skip anything that's been moved/deleted since this list was written
+existing=()
+for p in "${projects[@]}"; do
+  [ -d "$p" ] && existing+=("$p")
+done
+
+selected=$(printf '%s\n' "${existing[@]}" | fzf --prompt="project> ")
+[ -z "${selected:-}" ] && exit 0
+
+# tmux session names can't contain '.' (it's the window/pane separator in
+# target specs like session:window.pane), so swap dots for underscores
+session_name=$(basename "$selected" | tr '.' '_')
+
+if ! tmux has-session -t "$session_name" 2>/dev/null; then
+  tmux new-session -ds "$session_name" -c "$selected"
+fi
+
+if [ -n "${TMUX:-}" ]; then
+  tmux switch-client -t "$session_name"
+else
+  tmux attach-session -t "$session_name"
+fi
