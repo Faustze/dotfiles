@@ -1,7 +1,8 @@
-theme = Catppuccin Mocha
+background = 000000
+foreground = ffffff
 
-font-family = JetBrainsMono Font
-font-size = 14
+font-family = Terminus (TTF)
+font-size = 18
 
 window-padding-x = 8
 window-padding-y = 8
@@ -11,6 +12,7 @@ cursor-style = block
 mouse-hide-while-typing = true
 
 shell-integration = zsh
+command = /usr/bin/zsh
 
 confirm-close-surface = false
 
