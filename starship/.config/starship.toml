@@ -1,0 +1,9 @@
+format = "$directory$character"
+
+[directory]
+truncation_length = 3
+truncate_to_repo = false
+
+[character]
+success_symbol = ">"
+error_symbol = ">"
