@@ -19,29 +19,23 @@ lazygit/.config/lazygit/config.yml
 
 ## Bootstrap on a new machine
 
+Quick version:
+
 ```bash
-sudo apt install stow zsh lazygit fzf   # if not already installed
+sudo apt install stow zsh   # if not already installed
 git clone https://github.com/Faustze/dotfiles.git ~/dotfiles
 ~/dotfiles/install.sh
 ```
 
 `install.sh` clones plugins that aren't vendored in this repo
 (`zsh-autosuggestions`, `zsh-syntax-highlighting`, `tmux-resurrect`,
-`tmux-continuum`) and symlinks every package into `$HOME` via `stow`.
+`tmux-continuum`) and symlinks every package into `$HOME` via `stow`. It
+does *not* install `nvim`/`lazygit`/`fzf` themselves (Ubuntu's apt neovim is
+too old for LazyVim) or handle the first-run gotchas (glibc vs. mason's
+treesitter CLI, `vue_ls` vs. a too-new TypeScript).
 
-**Neovim is not installed by `install.sh`.** Ubuntu's `apt` only has 0.6.1,
-which is too old for LazyVim (needs 0.9+). Install a recent release
-yourself, e.g.:
-
-```bash
-curl -fLO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
-tar -xzf nvim-linux-x86_64.tar.gz -C ~/.local/share/
-mv ~/.local/share/nvim-linux-x86_64 ~/.local/share/nvim
-ln -sf ~/.local/share/nvim/bin/nvim ~/.local/bin/nvim   # needs ~/.local/bin on PATH
-```
-
-First launch of `nvim` after stowing will bootstrap `lazy.nvim` and install
-all plugins automatically (needs network access, takes a minute or two).
+**For the full step-by-step version - including every gotcha above, in the
+order you'll actually hit them - see [SETUP.md](SETUP.md).**
 
 To make zsh your login shell:
 
@@ -109,53 +103,20 @@ customized here to match nvim/tmux (catppuccin mocha).
   Edit the `projects=(...)` array in `tmux/.local/bin/tmux-sessionizer`
   directly to add/remove entries.
 
-## Known caveat: icons
+## Known caveats
 
-LazyVim's UI (file explorer, bufferline, statusline) and lazygit both
-default to expecting a Nerd Font for icon glyphs. `ghostty` is currently set
-to `Terminus (TTF)`, which isn't Nerd-Font-patched, so icons are left off in
-both configs to avoid broken-glyph boxes. A patched `JetBrainsMonoNL Nerd
-Font` is already installed at `~/.local/share/fonts` if you want to switch
-`ghostty`'s `font-family` to it later and turn icons back on
-(`gui.showIcons: true` + `gui.nerdFontsVersion: "3"` in lazygit's
-`config.yml`; LazyVim/mini.icons picks it up automatically once the terminal
-font supports it).
+Three environment-specific gotchas were hit setting this up (all on Ubuntu
+22.04) - fixes are in [SETUP.md](SETUP.md#5-first-neovim-launch), summary
+here:
 
-## Known caveat: treesitter parsers vs. Ubuntu 22.04's glibc
-
-Mason installs the latest `tree-sitter-cli` to compile treesitter parsers,
-but recent releases are built against glibc 2.39 - Ubuntu 22.04 only ships
-2.35, so `:TSUpdate` fails for almost every parser
-(`GLIBC_2.39' not found`). Any `tree-sitter` binary on `$PATH` shadows
-mason's own copy (nvim-treesitter resolves it via `$PATH`, not mason's
-injected bin dir), so the fix is to put a compatible version there instead:
-
-```bash
-npm uninstall -g tree-sitter-cli   # if you already tried the latest and hit this
-npm install -g tree-sitter-cli@0.24.7   # last release before the glibc bump
-nvim --headless "+TSUpdate" +qa
-```
-
-## Known caveat: `vue_ls` crashing on startup
-
-Mason installs `vue-language-server` together with the latest `typescript`
-as an "extra package". If that resolves to a very new major (TypeScript 7 at
-the time of writing), `@vue/language-server` 3.3.7 crashes on the first
-request (`TypeError: Cannot read properties of undefined (reading
-'protocol')` in `server.js`, visible via `:LspLog`) - it wasn't built against
-that TS internal API shape yet. Fix by pinning an older `typescript` inside
-mason's copy of the package:
-
-```bash
-cd ~/.local/share/nvim/mason/packages/vue-language-server
-npm install typescript@5.7.3
-```
-
-`vtsls` and the project's own TypeScript are untouched by this - it only
-overrides the copy `vue-language-server` bundles for itself.
-
-Only relevant on Ubuntu 22.04 (or anything else on glibc < 2.39). Newer distros
-won't hit this at all.
+- **Icons are off** in both LazyVim's UI and lazygit - `ghostty`'s font
+  (`Terminus (TTF)`) isn't Nerd-Font-patched. A patched `JetBrainsMonoNL
+  Nerd Font` is already installed at `~/.local/share/fonts` for whenever you
+  want to switch `ghostty`'s `font-family` and flip icons back on.
+- **Treesitter parsers fail to compile** (`GLIBC_2.39' not found`) - mason's
+  `tree-sitter-cli` needs a newer glibc than Ubuntu 22.04 ships.
+- **`vue_ls` can crash on its first request** - mason resolves a `typescript`
+  version for it that's newer than the language server has caught up to.
 
 ## Adding a new package
 
@@ -186,6 +147,8 @@ away above, so you dig in yourself when curious:
 - **`is_vim` in `tmux.conf`** — the actual shell one-liner that detects
   "is the current pane running vim" to decide whether `C-h` etc. should be
   forwarded to nvim or handled by tmux.
-- **`tmux-resurrect`'s save format** — `~/.tmux/resurrect/last` after a
-  manual `prefix + C-s` (continuum triggers this automatically too) — worth
-  a look to see it's just a plain text file, no magic.
+- **`tmux-resurrect`'s save format** — a plain text file, no magic, after a
+  manual `prefix + C-s` (continuum triggers this automatically too). Falls
+  back to `~/.local/share/tmux/resurrect/last` since `~/.tmux/resurrect`
+  itself doesn't exist as a directory (only `~/.tmux/plugins` does) — worth
+  reading `resurrect_dir()` in `tmux-resurrect`'s `helpers.sh` to see why.
