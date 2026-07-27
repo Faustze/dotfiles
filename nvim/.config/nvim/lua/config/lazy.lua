@@ -26,6 +26,9 @@ require("lazy").setup({
     { import = "lazyvim.plugins.extras.lang.tailwind" },
     { import = "lazyvim.plugins.extras.lang.json" },
 
+    -- C#/.NET support (omnisharp LSP + csharpier formatter)
+    { import = "lazyvim.plugins.extras.lang.dotnet" },
+
     -- eslint LSP registers a *secondary* formatter that runs `eslint --fix`
     -- on save whenever the eslint LSP is attached to the buffer (i.e. the
     -- project has an eslint config at all). Combined with
