@@ -69,6 +69,8 @@ which-key. A few non-default additions from this setup:
 | Key | Action |
 |---|---|
 | `<C-h/j/k/l>` | move between nvim splits, or out into a tmux pane at the edge |
+| `<C-h/j/k/l>` in a terminal buffer | same, straight from terminal mode — no `<C-\><C-n>` first. Inside a terminal `<C-h>`/`<C-l>` switch buffers instead (the terminal-mode stand-in for `<S-h>`/`<S-l>`, which would eat a capital H/L in the shell) |
+| `<Esc><Esc>` in a terminal buffer | leave terminal mode in place, instead of `<C-\><C-n>` |
 
 Everything else (`<space>ff` find files, `<space>/` grep, `<space>e` file
 explorer, `gd` go to definition, etc.) is stock LazyVim — see `:LazyExtras`
