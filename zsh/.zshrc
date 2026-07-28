@@ -73,3 +73,17 @@ export NVM_DIR="$HOME/.nvm"
 
 # --- Prompt --------------------------------------------------------------
 eval "$(starship init zsh)"
+export PATH="$HOME/.local/bin:$PATH"
+
+# kimi-code
+export PATH="/home/faust/.kimi-code/bin:$PATH"
+
+# --- .NET ----------------------------------------------------------------
+# dotnet стоит через snap — без DOTNET_ROOT сторонние .NET-тулы
+# (csharpier, netcoredbg и прочие из Mason) не находят рантайм
+export DOTNET_ROOT="/var/snap/dotnet/common/dotnet"
+export PATH="$DOTNET_ROOT:$HOME/.dotnet/tools:$PATH"
+
+# --- Go ------------------------------------------------------------------
+# тулчейн из ~/.local/go (не системный apt-пакет) + бинарники go install
+export PATH="$HOME/.local/go/bin:$HOME/go/bin:$PATH"
