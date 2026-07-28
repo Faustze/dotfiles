@@ -29,6 +29,10 @@ require("lazy").setup({
     -- C#/.NET support (omnisharp LSP + csharpier formatter)
     { import = "lazyvim.plugins.extras.lang.dotnet" },
 
+    -- Go support (gopls + gofumpt). Declared here rather than left to the
+    -- :LazyExtras bookkeeping in lazyvim.json, so it survives re-stowing.
+    { import = "lazyvim.plugins.extras.lang.go" },
+
     -- eslint LSP registers a *secondary* formatter that runs `eslint --fix`
     -- on save whenever the eslint LSP is attached to the buffer (i.e. the
     -- project has an eslint config at all). Combined with
