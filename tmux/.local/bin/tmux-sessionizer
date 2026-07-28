@@ -28,6 +28,7 @@ projects=(
   ~/langchain_news_tg
   ~/study-lab
   ~/dotfiles
+  ~/vue-app
 )
 
 # skip anything that's been moved/deleted since this list was written
