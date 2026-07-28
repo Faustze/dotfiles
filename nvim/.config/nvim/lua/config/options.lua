@@ -15,3 +15,6 @@
 -- `prettier --find-config-path` first and silently skip if none is found, so
 -- each project's own formatter/rules win instead of one hardcoded style.
 vim.g.lazyvim_prettier_needs_config = true
+
+-- Absolute line numbers (VS Code-style) instead of LazyVim's default relativenumber
+vim.opt.relativenumber = false
