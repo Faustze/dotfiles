@@ -20,3 +20,17 @@ end
 
 -- Exit terminal mode in place, without the <C-\><C-n> chord.
 vim.keymap.set("t", "<esc><esc>", "<c-\\><c-n>", { desc = "Exit terminal mode" })
+
+-- Alt+` cycles, as a one-handed alternative to the directional keys above.
+-- Those all stay bound; this is additive.
+--
+-- What it cycles depends on where you are, which is the whole point: in a
+-- terminal buffer you're almost always trying to get *out* to another window,
+-- in normal mode you're flipping between files.
+--
+-- Shift+` is `~`, so the backwards key is <M-~> — there is no <M-S-`> to
+-- write, the terminal simply sends the shifted character.
+vim.keymap.set("t", "<M-`>", "<cmd>wincmd w<cr>", { desc = "Cycle to next window" })
+vim.keymap.set("t", "<M-~>", "<cmd>wincmd W<cr>", { desc = "Cycle to previous window" })
+vim.keymap.set("n", "<M-`>", "<cmd>bnext<cr>", { desc = "Cycle to next buffer" })
+vim.keymap.set("n", "<M-~>", "<cmd>bprevious<cr>", { desc = "Cycle to previous buffer" })

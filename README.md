@@ -61,6 +61,7 @@ chsh -s "$(which zsh)"
 | `prefix h/j/k/l` | move between panes (vi-style, repeatable) |
 | `prefix H/J/K/L` | resize the current pane (repeatable) |
 | `prefix \|` / `prefix -` | split pane vertically / horizontally, in the current path |
+| `Alt+\`` / `Shift+Alt+\`` | cycle to the next / previous pane — one-key alternative to the directional keys above, forwarded into nvim when the pane is running it |
 | `prefix f` | fuzzy-pick a project from the fixed list in `tmux-sessionizer` and jump to its session |
 | `prefix g` | open `lazygit` in a popup for the current pane's directory; closes itself on exit |
 
@@ -77,6 +78,7 @@ which-key. A few non-default additions from this setup:
 |---|---|
 | `<C-h/j/k/l>` | move between nvim splits, or out into a tmux pane at the edge |
 | `<C-h/j/k/l>` in a terminal buffer | same, straight from terminal mode — no `<C-\><C-n>` first. Inside a terminal `<C-h>`/`<C-l>` switch buffers instead (the terminal-mode stand-in for `<S-h>`/`<S-l>`, which would eat a capital H/L in the shell) |
+| `Alt+\`` / `Shift+Alt+\`` | cycle forward / backward. In a terminal buffer that's the next window; in normal mode it's the next buffer. Additive — `<C-hjkl>` and `<S-h>`/`<S-l>` all stay bound |
 | `<Esc><Esc>` in a terminal buffer | leave terminal mode in place, instead of `<C-\><C-n>` |
 | `gsa` / `gsd` / `gsr` | add / delete / replace a surrounding — `mini.surround`, via the `coding.mini-surround` extra. Note these are *not* tpope's `ysiw"` / `cs"'` |
 | `<space>e` / `<space>E` | yazi, at the current file / at cwd. These are LazyVim's explorer keys, repointed: `snacks.explorer` is disabled here, so there is no sidebar and `<space>fe`/`<space>fE` are unbound |
@@ -104,6 +106,18 @@ customized here to match nvim/tmux (catppuccin mocha).
   machine-local `PATH` exports (LM Studio, kimi, nvm) that shouldn't be
   vendored here. One consequence worth knowing: `.bash_aliases` is read
   *after* the stock `ll`/`la`/`l` definitions, so the shared ones win in bash.
+- **`Alt+\`` cycles rather than navigating, and needs a GNOME setting cleared
+  first.** It's one key standing in for what `<C-hjkl>` does with four, so it
+  can't carry a direction — it cycles, and what it cycles through depends on
+  context (next pane in tmux, next window from a nvim terminal buffer, next
+  buffer in normal mode). The directional keys are all still bound; this is
+  purely additive. Two things that make it work at all: GNOME binds
+  `<Alt>Above_Tab` to `switch-group` out of the box and the key never reaches
+  the terminal until that's dropped (kept on `<Super>Above_Tab` here), and
+  tmux has to forward it through the same `is_vim` check as `C-hjkl` or it
+  would swallow the key before nvim ever sees it. Note also there's no
+  `<M-S-\`>` to write anywhere — shift on a backtick produces `~`, so the
+  backwards key is literally `<M-~>` / `M-~`.
 - **`cc` is aliased to `clear`, which shadows `/usr/bin/cc`** (the system C
   compiler, gcc). Aliases only apply to interactive shells, so `make` and any
   build script still reach the real binary — they run non-interactively, where
