@@ -18,3 +18,21 @@ vim.g.lazyvim_prettier_needs_config = true
 
 -- Absolute line numbers (VS Code-style) instead of LazyVim's default relativenumber
 vim.opt.relativenumber = false
+
+-- Insert mode gets the same solid block as normal/visual instead of nvim's
+-- default thin bar (`i-ci-ve:ver25`). To keep the modes distinguishable once
+-- the shapes match, insert paints its block through a dedicated highlight
+-- group, InsertCursor, defined in autocmds.lua.
+--
+-- A terminal cursor cannot actually be translucent: DECSCUSR carries a shape,
+-- OSC 12 carries one opaque colour, and neither VTE/GNOME Terminal nor any
+-- other emulator exposes an alpha channel for it. InsertCursor fakes it the
+-- only way that works - the block is mixed towards the editor background and
+-- the character underneath keeps the normal foreground instead of being
+-- inverted, which reads as a translucent slab rather than a solid one.
+vim.opt.guicursor = table.concat({
+  "n-v-c-sm:block",
+  "i-ci-ve:block-InsertCursor",
+  "r-cr-o:hor20",
+  "t:block-blinkon500-blinkoff500-TermCursor",
+}, ",")

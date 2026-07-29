@@ -1,6 +1,6 @@
 return {
   { "catppuccin/nvim", name = "catppuccin", lazy = true, opts = { flavour = "mocha" } },
 
-  -- tell LazyVim to actually use it instead of the tokyonight default
-  { "LazyVim/LazyVim", opts = { colorscheme = "catppuccin" } },
+  -- "custom" lives in colors/custom.vim (plain vimscript colorscheme, no plugin needed)
+  { "LazyVim/LazyVim", opts = { colorscheme = "custom" } },
 }
