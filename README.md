@@ -72,10 +72,12 @@ which-key. A few non-default additions from this setup:
 | `<C-h/j/k/l>` in a terminal buffer | same, straight from terminal mode — no `<C-\><C-n>` first. Inside a terminal `<C-h>`/`<C-l>` switch buffers instead (the terminal-mode stand-in for `<S-h>`/`<S-l>`, which would eat a capital H/L in the shell) |
 | `<Esc><Esc>` in a terminal buffer | leave terminal mode in place, instead of `<C-\><C-n>` |
 | `gsa` / `gsd` / `gsr` | add / delete / replace a surrounding — `mini.surround`, via the `coding.mini-surround` extra. Note these are *not* tpope's `ysiw"` / `cs"'` |
+| `<space>e` / `<space>E` | yazi, at the current file / at cwd. These are LazyVim's explorer keys, repointed: `snacks.explorer` is disabled here, so there is no sidebar and `<space>fe`/`<space>fE` are unbound |
+| `<space>-` / `<space>cw` / `<C-Up>` | yazi at the current file / at cwd / resume the last session. `<space>-` therefore no longer splits the window below — use `<C-w>s` |
 
-Everything else (`<space>ff` find files, `<space>/` grep, `<space>e` file
-explorer, `gd` go to definition, etc.) is stock LazyVim — see `:LazyExtras`
-for what's enabled and `:Lazy` for installed plugins.
+Everything else (`<space>ff` find files, `<space>/` grep, `gd` go to
+definition, etc.) is stock LazyVim — see `:LazyExtras` for what's enabled and
+`:Lazy` for installed plugins.
 
 ### lazygit
 
