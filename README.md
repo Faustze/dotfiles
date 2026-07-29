@@ -62,6 +62,7 @@ chsh -s "$(which zsh)"
 | `prefix H/J/K/L` | resize the current pane (repeatable) |
 | `prefix \|` / `prefix -` | split pane vertically / horizontally, in the current path |
 | `Alt+\`` / `Shift+Alt+\`` | cycle to the next / previous pane — one-key alternative to the directional keys above, forwarded into nvim when the pane is running it |
+| `Alt+q` / `Alt+Q` | cycle to the next / previous pane, *without* the nvim forwarding — always moves the tmux pane, even from inside a nvim split |
 | `prefix f` | fuzzy-pick a project from the fixed list in `tmux-sessionizer` and jump to its session |
 | `prefix g` | open `lazygit` in a popup for the current pane's directory; closes itself on exit |
 
@@ -147,6 +148,15 @@ customized here to match nvim/tmux (catppuccin mocha).
   would swallow the key before nvim ever sees it. Note also there's no
   `<M-S-\`>` to write anywhere — shift on a backtick produces `~`, so the
   backwards key is literally `<M-~>` / `M-~`.
+- **`Alt+q` is the one nav key that ignores `is_vim`.** Every other pane key
+  (`C-hjkl`, `Alt+\``) is forwarded to nvim when the pane is running it, which
+  is what makes splits feel seamless — but it also means there's no key that
+  reliably crosses out of nvim regardless of what's focused inside it.
+  `Alt+q` is that key, bound straight to `select-pane` with no `if-shell` in
+  front of it. Cost of picking `q`: zsh binds `^[q` to `push-line` by default
+  and tmux grabs the key first, so that's gone. `bindkey '^[Q' push-line`
+  brings it back elsewhere if it turns out to be missed. Alt+q was otherwise
+  free at every level — nothing in GNOME, gnome-terminal or ibus claims it.
 - **`cc` is aliased to `clear`, which shadows `/usr/bin/cc`** (the system C
   compiler, gcc). Aliases only apply to interactive shells, so `make` and any
   build script still reach the real binary — they run non-interactively, where
