@@ -3,7 +3,7 @@
 set -euo pipefail
 
 DOTFILES_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-PACKAGES=(ghostty zsh starship nvim tmux lazygit)
+PACKAGES=(ghostty shell zsh bash starship nvim tmux lazygit)
 
 if ! command -v stow >/dev/null 2>&1; then
   echo "GNU Stow not found. Install it, e.g.:"

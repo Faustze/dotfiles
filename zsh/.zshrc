@@ -27,26 +27,9 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"
 
 # --- Aliases -------------------------------------------------------------
-alias ls='ls --color=auto'
-alias ll='ls -lh'
-alias la='ls -lAh'
-alias grep='grep --color=auto'
-alias ..='cd ..'
-alias ...='cd ../..'
-alias cc='clear'
-
-alias g='git'
-alias gs='git status'
-alias ga='git add'
-alias gc='git commit'
-alias gp='git push'
-alias gl='git log --oneline --graph --decorate'
-alias gd='git diff'
-alias gco='git checkout'
-alias gbr='git branch'
-
-alias dtb='dotnet build'
-alias dtr='dotnet run'
+# Shared with bash — see the `shell` package. Zsh-only aliases go below the
+# source line, not in that file.
+[ -f "$HOME/.config/shell/aliases.sh" ] && source "$HOME/.config/shell/aliases.sh"
 
 # --- Key bindings ----------------------------------------------------------
 bindkey -e

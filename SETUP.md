@@ -61,10 +61,11 @@ https://github.com/jesseduffield/lazygit/releases instead.
 
 This clones the plugins that aren't vendored in the repo
 (`zsh-autosuggestions`, `zsh-syntax-highlighting`, `tmux-resurrect`,
-`tmux-continuum`) and `stow --restow`s every package (`ghostty`, `zsh`,
-`starship`, `nvim`, `tmux`, `lazygit`) into `$HOME`. It ends with a check for
-required binaries not managed by this repo (`nvim`, `tmux`, `lazygit`,
-`fzf`, `git`) - if anything's missing, go back to the relevant step above.
+`tmux-continuum`) and `stow --restow`s every package (`ghostty`, `shell`,
+`zsh`, `bash`, `starship`, `nvim`, `tmux`, `lazygit`) into `$HOME`. It ends
+with a check for required binaries not managed by this repo (`nvim`, `tmux`,
+`lazygit`, `fzf`, `git`) - if anything's missing, go back to the relevant step
+above.
 
 ## 5. First neovim launch
 

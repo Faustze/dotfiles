@@ -1,7 +1,8 @@
 # dotfiles
 
-Personal config for `ghostty`, `zsh`, `starship`, `nvim` (LazyVim), `tmux`, and
-`lazygit`, managed with [GNU Stow](https://www.gnu.org/software/stow/).
+Personal config for `ghostty`, `zsh`, `bash`, `starship`, `nvim` (LazyVim),
+`tmux`, and `lazygit`, managed with
+[GNU Stow](https://www.gnu.org/software/stow/).
 
 ## Structure
 
@@ -9,7 +10,9 @@ Each top-level directory is a stow package that mirrors `$HOME`:
 
 ```
 ghostty/.config/ghostty/config
+shell/.config/shell/aliases.sh   # aliases shared by zsh + bash
 zsh/.zshrc
+bash/.bash_aliases
 starship/.config/starship.toml
 nvim/.config/nvim/...            # LazyVim
 tmux/.tmux.conf
@@ -36,6 +39,10 @@ treesitter CLI, `vue_ls` vs. a too-new TypeScript).
 
 **For the full step-by-step version - including every gotcha above, in the
 order you'll actually hit them - see [SETUP.md](SETUP.md).**
+
+Aliases apply to both shells, so a `bash` fallback session (or anything that
+drops you into `sh -c`-style bash) behaves the same as the zsh you actually
+live in.
 
 To make zsh your login shell:
 
@@ -86,6 +93,22 @@ customized here to match nvim/tmux (catppuccin mocha).
 
 ## Why these specific choices
 
+- **Aliases live in one file (`shell/.config/shell/aliases.sh`), not per
+  shell.** Both `zsh/.zshrc` and `bash/.bash_aliases` source it, so the two
+  shells can't drift — which they already had, with bash carrying none of the
+  git shortcuts and its own `ll='ls -alF'`. The file is sourced by `sh`-level
+  syntax only (no zsh globs, no bashisms); anything shell-specific belongs in
+  that shell's own rc instead. The `bash` package is deliberately *just*
+  `.bash_aliases` rather than a whole `.bashrc`: Ubuntu's stock `.bashrc`
+  already sources that path if it exists, and the real `~/.bashrc` also holds
+  machine-local `PATH` exports (LM Studio, kimi, nvm) that shouldn't be
+  vendored here. One consequence worth knowing: `.bash_aliases` is read
+  *after* the stock `ll`/`la`/`l` definitions, so the shared ones win in bash.
+- **`cc` is aliased to `clear`, which shadows `/usr/bin/cc`** (the system C
+  compiler, gcc). Aliases only apply to interactive shells, so `make` and any
+  build script still reach the real binary — they run non-interactively, where
+  the rc files aren't read at all. It only bites when compiling by hand at a
+  prompt; `command cc` or `\cc` bypasses the alias.
 - **Formatting (`conform.nvim` via LazyVim's `formatting.prettier` +
   `linting.eslint` extras):** prettier only runs if the project actually has
   a `.prettierrc` (`vim.g.lazyvim_prettier_needs_config = true` in
