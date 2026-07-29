@@ -88,6 +88,35 @@ Everything else (`<space>ff` find files, `<space>/` grep, `gd` go to
 definition, etc.) is stock LazyVim — see `:LazyExtras` for what's enabled and
 `:Lazy` for installed plugins.
 
+### yazi
+
+**Entirely stock — there is deliberately no `yazi` package in this repo.**
+`~/.config/yazi` doesn't exist, so every key below is a yazi default; `~` or
+`<F1>` opens the built-in help, which is always the authoritative list. Only
+the keys worth memorizing (or that surprise) are repeated here.
+
+| Key | Action |
+|---|---|
+| `h` / `j` / `k` / `l` | parent dir / down / up / enter dir. `H` / `L` are *history* back/forward, not movement |
+| `r` | rename — the cursor lands **before the extension** (`--cursor=before_ext`), so `config.lua` opens ready to edit `config` without touching `.lua` |
+| `<Space>` then `r` | select several files first and the same `r` becomes a **bulk rename**: yazi dumps the names into `bulk-rename.txt`, opens it in `$EDITOR`, and applies whatever you save. `:%s///` over a file list |
+| `a` | create — a name ending in `/` makes a directory, anything else a file. One key for both |
+| `d` / `D` | trash / permanently delete |
+| `y` / `x` / `p` / `P` | copy / cut / paste / paste overwriting |
+| `.` | toggle hidden files |
+| `s` / `S` | search by filename via `fd` / by content via `ripgrep` |
+| `cc` / `cd` / `cf` | copy the file's path / its directory / just the filename |
+
+Renaming through yazi is safe with files already open in nvim: `yazi.nvim`
+listens for `rename` and `bulk-rename` events
+(`lua/yazi/process/ya_process.lua`) and moves the open buffers to the new
+paths, so nothing is left pointing at a path that no longer exists.
+
+If a `keymap.toml` ever becomes necessary, it needs to arrive as its own stow
+package (`yazi/.config/yazi/keymap.toml`) rather than as a loose file in
+`~/.config` — that's exactly how `lua/plugins/yazi.lua` escaped this repo for
+a while.
+
 ### lazygit
 
 Standard lazygit bindings (`?` for help inside it). Only the theme is
