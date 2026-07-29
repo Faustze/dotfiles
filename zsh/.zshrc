@@ -36,6 +36,11 @@ bindkey -e
 bindkey '^[[A' up-line-or-search
 bindkey '^[[B' down-line-or-search
 
+# push-line moved off its default ^[q: tmux binds M-q to pane cycling and
+# grabs the key before the shell ever sees it. ^[Q is no better — tmux takes
+# M-Q too, for the reverse cycle. ^[v was free on both sides.
+bindkey '^[v' push-line
+
 # --- Plugins (cloned by install.sh into .zsh/plugins, not vendored here) ---
 ZSH_PLUGIN_DIR="$HOME/.zsh/plugins"
 
