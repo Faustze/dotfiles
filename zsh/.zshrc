@@ -33,6 +33,7 @@ alias la='ls -lAh'
 alias grep='grep --color=auto'
 alias ..='cd ..'
 alias ...='cd ../..'
+alias cc='clear'
 
 alias g='git'
 alias gs='git status'
@@ -42,6 +43,10 @@ alias gp='git push'
 alias gl='git log --oneline --graph --decorate'
 alias gd='git diff'
 alias gco='git checkout'
+alias gbr='git branch'
+
+alias dtb='dotnet build'
+alias dtr='dotnet run'
 
 # --- Key bindings ----------------------------------------------------------
 bindkey -e
