@@ -34,3 +34,19 @@ vim.keymap.set("t", "<M-`>", "<cmd>wincmd w<cr>", { desc = "Cycle to next window
 vim.keymap.set("t", "<M-~>", "<cmd>wincmd W<cr>", { desc = "Cycle to previous window" })
 vim.keymap.set("n", "<M-`>", "<cmd>bnext<cr>", { desc = "Cycle to next buffer" })
 vim.keymap.set("n", "<M-~>", "<cmd>bprevious<cr>", { desc = "Cycle to previous buffer" })
+
+-- Copy current file's path to the system clipboard. `+` register needs nvim
+-- built with +clipboard and a working xclip/wl-clipboard; over a bare SSH
+-- session without that, the yank still lands in the register, it just won't
+-- reach the host clipboard.
+vim.keymap.set("n", "<leader>cp", function()
+  local path = vim.fn.expand("%:p")
+  vim.fn.setreg("+", path)
+  vim.notify("Copied: " .. path)
+end, { desc = "Copy full file path" })
+
+vim.keymap.set("n", "<leader>cP", function()
+  local path = vim.fn.expand("%")
+  vim.fn.setreg("+", path)
+  vim.notify("Copied: " .. path)
+end, { desc = "Copy relative file path" })

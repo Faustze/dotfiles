@@ -7,12 +7,6 @@
 -- Or remove existing autocmds by their group name (which is prefixed with `lazyvim_` for the defaults)
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
 
--- Inside a terminal buffer, <M-`>/<C-l> switch buffers instead of windows,
--- i.e. the terminal-mode stand-in for LazyVim's <S-h>/<S-l> (which can't be
--- mapped in terminal mode without eating a capital H/L in the shell).
--- <C-j>/<C-k> keep their global meaning (window/tmux-pane up/down).
--- <C-h> stayed reserved for the shell (e.g. readline/backspace-word), so
--- "prev buffer" moved to <M-`> instead of sharing the chord.
 -- Colour for the insert-mode block cursor set up in options.lua.
 --
 -- Recomputed from whatever Normal currently is rather than hardcoded, so the
@@ -56,12 +50,3 @@ vim.api.nvim_create_autocmd("ColorScheme", {
   callback = set_insert_cursor,
 })
 set_insert_cursor()
-
-vim.api.nvim_create_autocmd("TermOpen", {
-  group = vim.api.nvim_create_augroup("term_buffer_nav", { clear = true }),
-  callback = function(ev)
-    local opts = { buffer = ev.buf }
-    vim.keymap.set("t", "<M-`>", "<cmd>bprevious<cr>", vim.tbl_extend("error", opts, { desc = "Prev Buffer" }))
-    vim.keymap.set("t", "<c-l>", "<cmd>bnext<cr>", vim.tbl_extend("error", opts, { desc = "Next Buffer" }))
-  end,
-})
