@@ -19,6 +19,11 @@ vim.g.lazyvim_prettier_needs_config = true
 -- Absolute line numbers (VS Code-style) instead of LazyVim's default relativenumber
 vim.opt.relativenumber = false
 
+-- Русский текст в заметках/коммитах не должен весь подсвечиваться как
+-- опечатки: LazyVim включает spell для markdown/gitcommit по умолчанию
+-- (lazyvim_wrap_spell), но словарь по умолчанию только английский.
+vim.opt.spelllang = { "ru", "en" }
+
 -- Insert mode gets the same solid block as normal/visual instead of nvim's
 -- default thin bar (`i-ci-ve:ver25`). To keep the modes distinguishable once
 -- the shapes match, insert paints its block through a dedicated highlight
