@@ -24,6 +24,10 @@ vim.opt.relativenumber = false
 -- (lazyvim_wrap_spell), но словарь по умолчанию только английский.
 vim.opt.spelllang = { "ru", "en" }
 
+-- Подхватывать файл с диска, если он изменился снаружи (git pull, другой
+-- редактор) и в буфере нет несохранённых правок — иначе просто предупреждает.
+vim.opt.autoread = true
+
 -- Insert mode gets the same solid block as normal/visual instead of nvim's
 -- default thin bar (`i-ci-ve:ver25`). To keep the modes distinguishable once
 -- the shapes match, insert paints its block through a dedicated highlight
