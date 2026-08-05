@@ -80,3 +80,7 @@ export PATH="$DOTNET_ROOT:$HOME/.dotnet/tools:$PATH"
 # --- Go ------------------------------------------------------------------
 # тулчейн из ~/.local/go (не системный apt-пакет) + бинарники go install
 export PATH="$HOME/.local/go/bin:$HOME/go/bin:$PATH"
+
+# opencode
+export PATH=/home/faust/.opencode/bin:$PATH
+export PATH="/opt/freerdp-nightly/bin:$PATH"
