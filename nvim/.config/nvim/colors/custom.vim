@@ -50,6 +50,13 @@ highlight SpecialKey    guifg=#676767
 highlight Statement     guifg=#cccccc
 highlight StatusLine    guifg=#FFFEDB guibg=#34383C
 highlight String        guifg=#A2A970
+highlight @variable.parameter guifg=#C1C88D
+highlight @variable.parameter.builtin guifg=#C1C88D
+highlight @parameter      guifg=#C1C88D
+highlight LspCodeLens     guifg=#8B9698
+highlight LspInlayHint    guifg=#8B9698
+highlight LspSignatureActiveParameter guifg=#FEFEFE guibg=#454545
+highlight LspReferenceText guifg=#FEFEFE guibg=#454545
 highlight Structure     guifg=#AA9AAC
 highlight Substitute    guifg=#1A1A1A guibg=#C1C88D
 highlight TabLine       guifg=#A09998 guibg=#212121
